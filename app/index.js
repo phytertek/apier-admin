@@ -1,3 +1,3 @@
-require('./database')
-require('./services')
-require('./server')
+// require('./database')
+require('./services');
+require('./server');

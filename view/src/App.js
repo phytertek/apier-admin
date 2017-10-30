@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import 'typeface-roboto';
+
+import AppHeader from './app/header';
+import Modals from './app/modals';
+import DashboardPage from './dashboard/dashboardPage';
+import ComponentPage from './common/component/componentPage';
+
+import { getAppConfig } from './common';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.getAppConfig();
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <AppHeader />
+        <Route exact path="/" component={DashboardPage} />
+        <Route path="/component" component={ComponentPage} />
+        <Modals />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    appConfig: state.common.appConfig
+  };
+};
+export default withRouter(connect(mapStateToProps, { getAppConfig })(App));
